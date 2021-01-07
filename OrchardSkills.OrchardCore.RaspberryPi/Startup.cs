@@ -11,7 +11,7 @@ namespace OrchardSkills.OrchardCore.RaspberryPi
     {
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<LedDevice>();
+            services.AddSingleton<RelayDevice>();
         }
 
         public override void Configure(IApplicationBuilder builder, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)

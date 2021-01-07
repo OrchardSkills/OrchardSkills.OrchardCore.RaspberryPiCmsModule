@@ -10,30 +10,30 @@ namespace OrchardSkills.OrchardCore.RaspberryPi.Controllers
 {
     public class RelayController : Controller
     {
-        private readonly LedDevice _ledDevice;
+        private readonly RelayDevice _relayDevice;
 
-        public RelayController(LedDevice ledDevice)
+        public RelayController(RelayDevice relayDevice)
         {
-            _ledDevice = ledDevice;
+            _relayDevice = relayDevice;
         }
 
         public IActionResult Index()
         {
-            ViewBag.ReplaySupported = _ledDevice.IsReplaySupported ? "Yes" : "No";
-            ViewBag.ReplayState = _ledDevice.IsReplayOn ? "On" : "Off";
+            ViewBag.ReplaySupported = _relayDevice.IsReplaySupported ? "Yes" : "No";
+            ViewBag.ReplayState = _relayDevice.IsReplayOn ? "On" : "Off";
             return View();
         }
 
         public IActionResult ReplayOn()
         {
-            _ledDevice.ReplayOn();
+            _relayDevice.ReplayOn();
 
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult ReplayOff()
         {
-            _ledDevice.ReplayOff();
+            _relayDevice.ReplayOff();
 
             return RedirectToAction(nameof(Index));
         }

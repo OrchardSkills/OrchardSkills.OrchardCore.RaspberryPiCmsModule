@@ -3,31 +3,31 @@ using System.Device.Gpio;
 
 namespace OrchardSkills.OrchardCore.RaspberryPi.Devices
 {
-    public class LedDevice : IDisposable
+    public class RelayDevice : IDisposable
     {
-        private const int LedPin = 17;
+        private const int gpioPin = 17;
 
         private GpioController _controller;
         private bool disposedValue = false;
         private object _locker = new object();
-        private bool ledSupported = true;
-        public LedDevice()
+        private bool relaySupported = true;
+        public RelayDevice()
         {
             try
             {
                 _controller = new GpioController();
-                _controller.OpenPin(LedPin, PinMode.Output);
-                _controller.Write(LedPin, PinValue.Low);
+                _controller.OpenPin(gpioPin, PinMode.Output);
+                _controller.Write(gpioPin, PinValue.Low);
                 IsReplayOn = false;
             }
             catch (Exception ex)
             {
-                ledSupported = false;
+                relaySupported = false;
                 Console.WriteLine(ex.Message);
             }
             finally
             {
-                IsReplaySupported = ledSupported;
+                IsReplaySupported = relaySupported;
             }
         }
 
@@ -38,7 +38,7 @@ namespace OrchardSkills.OrchardCore.RaspberryPi.Devices
         {
             lock (_locker)
             {
-                if (ledSupported) _controller.Write(LedPin, PinValue.High);
+                if (relaySupported) _controller.Write(gpioPin, PinValue.High);
 
                 IsReplayOn = true;
             }
@@ -48,7 +48,7 @@ namespace OrchardSkills.OrchardCore.RaspberryPi.Devices
         {
             lock (_locker)
             {
-                if (ledSupported) _controller.Write(LedPin, PinValue.Low);
+                if (relaySupported) _controller.Write(gpioPin, PinValue.Low);
 
                 IsReplayOn = false;
             }
@@ -60,7 +60,7 @@ namespace OrchardSkills.OrchardCore.RaspberryPi.Devices
             {
                 if (disposing)
                 {
-                    if (ledSupported) _controller.Dispose();
+                    if (relaySupported) _controller.Dispose();
                 }
 
                 disposedValue = true;
